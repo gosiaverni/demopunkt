@@ -111,6 +111,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 🔐 AUTH
   await checkAuth();
 
+  const { data: userData } = await supabaseClient.auth.getUser();
+const user = userData.user;
+
   const imageInput = document.getElementById("images");
 const fileLabel = document.getElementById("file-label");
 
@@ -167,7 +170,6 @@ imageInput?.addEventListener("change", () => {
       const location = document.getElementById("location")?.value.trim();
       const institution = document.getElementById("institution")?.value.trim();
       const link = document.getElementById("event-link")?.value.trim();
-      const imageInput = document.getElementById("images");
       const copyrightConfirmed = document.getElementById("copyright-confirm").checked;
 
       if (!title || !location || !startDate) {
