@@ -169,6 +169,18 @@ document
     window.location.href = "/map";
 });
 
+const editBtn = document.getElementById("edit-event-btn");
+
+if (editBtn) {
+
+  editBtn.addEventListener("click", () => {
+
+    window.location.href = `/create?id=${event.id}`;
+
+  });
+
+}
+
     // 🧠 SAFE SETTERS
     const titleEl = document.querySelector("h1");
     if (titleEl) titleEl.textContent = event.title;

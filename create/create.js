@@ -99,10 +99,13 @@ async function uploadImages(files) {
 
   return urls;
 }
-
+let existingImages = [];
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.querySelector(".event-form");
   if (!form) return;
+
+  const params = new URLSearchParams(window.location.search);
+const editingId = params.get("id");
 
   // ✅ UI
   initAmenities();
@@ -156,7 +159,75 @@ imageInput?.addEventListener("change", () => {
     fileLabel.textContent = "wybierz zdjęcia";
   });
 });
+if (editingId) {
 
+  const { data: event, error } = await supabaseClient
+    .from("events")
+    .select("*")
+    .eq("id", editingId)
+    .single();
+    existingImages = event.images || [];
+    if (existingImages.length) {
+
+  fileLabel.innerHTML = `
+    <div class="file-preview">
+
+      <img
+        src="${existingImages[0]}"
+        class="file-thumb">
+
+      <span class="file-name">
+        Obecne zdjęcie
+      </span>
+
+      ${
+        existingImages.length > 1
+          ? `<span class="file-count">+${existingImages.length - 1}</span>`
+          : ""
+      }
+
+      <button
+        type="button"
+        class="remove-file">
+        &times;
+      </button>
+
+    </div>
+  `;
+
+  document.querySelector(".remove-file").onclick = () => {
+
+    existingImages = [];
+
+    imageInput.value = "";
+
+    fileLabel.textContent = "wybierz zdjęcia";
+
+  };
+
+}
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  document.getElementById("title").value = event.title || "";
+  document.getElementById("institution").value = event.institution || "";
+  document.getElementById("description").value = event.description || "";
+  document.getElementById("start-date").value = event.start_date || "";
+  document.getElementById("end-date").value = event.end_date || "";
+  document.getElementById("location").value = event.location || "";
+  document.getElementById("event-link").value = event.link || "";
+
+  document.getElementById("copyright-confirm").checked =
+    event.copyright_confirmed;
+
+  // zmień napis przycisku
+  document.querySelector(".submit-btn").textContent =
+    "Zapisz zmiany";
+
+}
   // 🚀 SUBMIT
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -181,7 +252,7 @@ imageInput?.addEventListener("change", () => {
         document.querySelectorAll("#amenities-dropdown input:checked")
       ).map(el => el.value);
 
-      let images = [];
+     let images = existingImages;
 
 if (imageInput?.files?.length > 0) {
   images = await uploadImages(imageInput.files);
@@ -203,32 +274,66 @@ if (imageInput?.files?.length > 0) {
       }
 
       // 💾 SAVE
-      const { error } = await supabaseClient.from("events").insert([{
-  title,
-  description,
-  start_date: startDate,
-  end_date: endDate,
-  location,
-  lat: geoData[0].lat,
-  lon: geoData[0].lon,
-  institution,
-  link,
+    // 💾 SAVE
+let error;
 
-  images,
-  cover_image: images?.[0] || null,
+if (editingId) {
 
-  amenities: amenities.length ? amenities : [],
+  ({ error } = await supabaseClient
+    .from("events")
+    .update({
+      title,
+      description,
+      start_date: startDate,
+      end_date: endDate,
+      location,
+      lat: geoData[0].lat,
+      lon: geoData[0].lon,
+      institution,
+      link,
 
-  user_id: user?.id,
-  copyright_confirmed: copyrightConfirmed
-}]);
-      if (error) {
-        console.error(error);
-        alert("Błąd zapisu.");
-        return;
-      }
+      images,
+      cover_image: images?.[0] || null,
 
-      window.location.href = "/map";
+      amenities: amenities.length ? amenities : [],
+
+      copyright_confirmed: copyrightConfirmed
+    })
+    .eq("id", editingId));
+
+} else {
+
+  ({ error } = await supabaseClient
+    .from("events")
+    .insert([{
+      title,
+      description,
+      start_date: startDate,
+      end_date: endDate,
+      location,
+      lat: geoData[0].lat,
+      lon: geoData[0].lon,
+      institution,
+      link,
+
+      images,
+      cover_image: images?.[0] || null,
+
+      amenities: amenities.length ? amenities : [],
+
+      user_id: user.id,
+      copyright_confirmed: copyrightConfirmed
+    }]));
+
+}
+
+if (error) {
+  console.error(error);
+  alert("Błąd zapisu.");
+  return;
+}
+
+window.location.href = `/event?id=${editingId ?? ""}`;
 
     } catch (err) {
       console.error(err);
