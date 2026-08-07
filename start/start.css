@@ -1161,12 +1161,21 @@ filter: brightness(0.85); /* delikatnie przygasza */
   gap: 6px;
   align-items: flex-start;
 }
+.auth-field label {
+    width: 100%;
+    text-align: left;
+}
 .profile-box .form-row {
   display: flex;          /* zamiast grid */
   flex-direction: column; /* label nad inputem */
   gap: 6px;
 }
-
+.register-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* odstęp między nazwą i handle */
+    width: 300px;
+}
 .profile-box .input,
 .profile-box .file-input {
   width: 100%;           /* 🔥 pełna szerokość */

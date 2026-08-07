@@ -42,8 +42,9 @@
 
 <form id="auth-form">
 
-  <!-- tylko podczas rejestracji -->
-  <div class="auth-field register-only" style="display:none;">
+<div class="register-only register-group" style="display:none;">
+
+  <div class="auth-field">
     <label>nazwa użytkownika</label>
 
     <input
@@ -54,8 +55,7 @@
     >
   </div>
 
-  <!-- tylko podczas rejestracji -->
-  <div class="auth-field register-only" style="display:none;">
+  <div class="auth-field">
     <label>handle</label>
 
     <input
@@ -68,25 +68,28 @@
     <small id="handle-status"></small>
   </div>
 
-  <div class="auth-field">
-    <label>adres e-mail</label>
+</div>
 
-    <input
-      type="email"
-      id="email"
-      class="input"
-    >
-  </div>
+<div class="auth-field">
+  <label>adres e-mail</label>
 
-  <div class="auth-field">
-    <label>hasło</label>
+  <input
+    type="email"
+    id="email"
+    class="input"
+  >
+</div>
 
-    <input
-      type="password"
-      id="password"
-      class="input"
-    >
-  </div>
+<div class="auth-field">
+  <label>hasło</label>
+
+  <input
+    type="password"
+    id="password"
+    class="input"
+  >
+</div>
+
 
   <button
     type="submit"
