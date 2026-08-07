@@ -1597,13 +1597,13 @@ filter: brightness(0.85); /* delikatnie przygasza */
 }
 
 #handle-status.available{
-  color:#8fd28a;
+  color:#f6f2ed;
 }
 
 #handle-status.taken{
-  color:#ffb2b2;
+  color:#2b2b2b;
 }
 
 #handle-status.checking{
-  color:#ddd;
+  color:#b64857;
 }

@@ -200,7 +200,7 @@ if (usernameInput) {
       if (data) {
 
         handleStatus.textContent =
-          "❌ Ten handle jest już zajęty";
+          "Ten handle jest już zajęty";
 
         handleStatus.className =
           "taken";
@@ -210,7 +210,7 @@ if (usernameInput) {
       } else {
 
         handleStatus.textContent =
-          "✅ Handle jest dostępny";
+          "Handle jest dostępny";
 
         handleStatus.className =
           "available";
