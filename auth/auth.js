@@ -37,14 +37,17 @@ toggle.onclick = () => {
 document.getElementById("auth-form").onsubmit = async (e) => {
   e.preventDefault();
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email =
+  document.getElementById("email").value.trim();
 
-  const displayName =
-    document.getElementById("display-name")?.value.trim();
+const password =
+  document.getElementById("password").value;
 
-  let username =
-    document.getElementById("username")?.value.trim().toLowerCase();
+const displayName =
+  document.getElementById("display-name")?.value?.trim() || "";
+
+let username =
+  document.getElementById("username")?.value?.trim().toLowerCase() || "";
 
   if (isLogin) {
 
@@ -72,10 +75,14 @@ document.getElementById("auth-form").onsubmit = async (e) => {
       return;
     }
 
-    if (!username) {
-      alert("Podaj handle.");
-      return;
-    }
+   if (!username) {
+  alert("Podaj handle.");
+  return;
+}
+
+username = username.replace(/^@+/, "");
+username = "@" + username;
+
 
    
 
@@ -125,12 +132,30 @@ document.getElementById("auth-form").onsubmit = async (e) => {
 
     alert("Konto utworzone! Sprawdź swojego maila.");
 
+    isLogin = true;
+
+title.textContent = "Logowanie";
+btn.textContent = "zaloguj się";
+toggle.textContent = "Rejestracja";
+
+document
+  .querySelectorAll(".register-only")
+  .forEach(el => {
+    el.style.display = "none";
+  });
+
+document.getElementById("auth-form").reset();
+
+handleStatus.textContent = "";
+handleStatus.className = "";
+
+handleAvailable = false;
+
   }
 
 };
 
-username = username.replace(/^@+/, "");
-username = "@" + username;
+
 
 if (usernameInput) {
 
