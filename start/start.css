@@ -1147,11 +1147,8 @@ filter: brightness(0.85); /* delikatnie przygasza */
 #auth-form {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* 🔥 zwiększa odstęp między polami */
+  gap: 20px;
   align-items: center;
-}
-#auth-form .input {
-  width: 100%;
 }
 
 .auth-field {
@@ -1159,15 +1156,16 @@ filter: brightness(0.85); /* delikatnie przygasza */
   display: flex;
   flex-direction: column;
   gap: 6px;
-  align-items: flex-start;
 }
-
 
 .auth-field label {
   width: 100%;
   text-align: left;
 }
 
+#auth-form .input {
+  width: 100%;
+}
 
 #handle-status {
   display: block;
