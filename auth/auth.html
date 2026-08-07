@@ -42,7 +42,7 @@
 
 <form id="auth-form">
 
-  <!-- tylko podczas rejestracji -->
+  <!-- Nazwa użytkownika -->
   <div class="auth-field register-only" style="display:none;">
     <label>nazwa użytkownika</label>
 
@@ -54,7 +54,7 @@
     >
   </div>
 
-  <!-- tylko podczas rejestracji -->
+  <!-- Handle -->
   <div class="auth-field register-only" style="display:none;">
     <label>handle</label>
 
@@ -62,12 +62,13 @@
       type="text"
       id="username"
       class="input"
-      placeholder="jan_kowalski"
+      placeholder="np. jan_kowalski"
     >
 
     <small id="handle-status"></small>
   </div>
 
+  <!-- Email -->
   <div class="auth-field">
     <label>adres e-mail</label>
 
@@ -78,6 +79,7 @@
     >
   </div>
 
+  <!-- Hasło -->
   <div class="auth-field">
     <label>hasło</label>
 
@@ -99,12 +101,13 @@
 </form>
 
 <div class="auth-links">
-  <span id="toggle-auth">
-    Rejestracja
-  </span>
+  <span id="toggle-auth">Rejestracja</span>
 </div>
+
 <div class="auth-links">
-  <span id="forgot-password">Zapomniałeś hasła?</span>
+  <span id="forgot-password">
+    Zapomniałeś hasła?
+  </span>
 </div>
   </div>
 
