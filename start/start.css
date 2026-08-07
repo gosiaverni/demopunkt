@@ -1151,15 +1151,15 @@ filter: brightness(0.85); /* delikatnie przygasza */
   align-items: center;
 }
 #auth-form .input {
-  width: 300px; /* albo 350px jeśli chcesz szerzej */
-  text-align: left;
+  width: 100%;
 }
 
 .auth-field {
+  width: 300px;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  align-items: flex-start; /* tekst wyrównany do lewej */
+  align-items: flex-start;
 }
 .profile-box .form-row {
   display: flex;          /* zamiast grid */
