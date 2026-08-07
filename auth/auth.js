@@ -16,6 +16,15 @@ toggle.onclick = () => {
     btn.textContent = "zarejestruj się";
     toggle.textContent = "Logowanie";
   }
+
+  document
+    .querySelectorAll(".register-only")
+    .forEach(el => {
+
+      el.style.display =
+        isLogin ? "none" : "block";
+
+    });
 };
 
 document.getElementById("auth-form").onsubmit = async (e) => {
@@ -24,12 +33,20 @@ document.getElementById("auth-form").onsubmit = async (e) => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
+  const displayName =
+    document.getElementById("display-name")?.value.trim();
+
+  let username =
+    document.getElementById("username")?.value.trim().toLowerCase();
+
   if (isLogin) {
+
     // 🔐 LOGOWANIE
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      email,
-      password
-    });
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
 
     if (error) {
       alert("Błąd logowania");
@@ -37,11 +54,45 @@ document.getElementById("auth-form").onsubmit = async (e) => {
       return;
     }
 
-  window.location.href = "/map";
+    window.location.href = "/map";
 
   } else {
+
+    // 📝 WALIDACJA
+
+    if (!displayName) {
+      alert("Podaj nazwę użytkownika.");
+      return;
+    }
+
+    if (!username) {
+      alert("Podaj handle.");
+      return;
+    }
+
+    username = username.replace(/^@+/, "");
+    username = "@" + username;
+
+    // 🔍 sprawdzenie czy handle istnieje
+
+    const { data: existing } =
+      await supabaseClient
+        .from("profiles")
+        .select("user_id")
+        .eq("handle", username)
+        .maybeSingle();
+
+    if (existing) {
+      alert("Ten handle jest już zajęty.");
+      return;
+    }
+
     // 📝 REJESTRACJA
-    const { error } = await supabaseClient.auth.signUp({
+
+    const {
+      data,
+      error
+    } = await supabaseClient.auth.signUp({
       email,
       password
     });
@@ -52,10 +103,32 @@ document.getElementById("auth-form").onsubmit = async (e) => {
       return;
     }
 
+    if (data.user) {
+
+      const { error: profileError } =
+        await supabaseClient
+          .from("profiles")
+          .insert([{
+            user_id: data.user.id,
+            name: displayName,
+            handle: username,
+            avatar_url: null
+          }]);
+
+      if (profileError) {
+        console.error(profileError);
+      }
+
+    }
+
     alert("Konto utworzone! Sprawdź swojego maila.");
+
   }
+
 };
 
+username = username.replace(/^@+/, "");
+username = "@" + username;
 const forgotBtn = document.getElementById("forgot-password");
 
 if (forgotBtn) {
