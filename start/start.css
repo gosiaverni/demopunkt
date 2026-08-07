@@ -1181,12 +1181,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
   flex-direction: column; /* label nad inputem */
   gap: 6px;
 }
-.register-group {
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* odstęp między nazwą i handle */
-    width: 300px;
-}
+
 .profile-box .input,
 .profile-box .file-input {
   width: 100%;           /* 🔥 pełna szerokość */
