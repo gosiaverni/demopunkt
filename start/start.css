@@ -1147,7 +1147,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
 #auth-form {
   display: flex;
   flex-direction: column;
-  gap: 30px; /* 🔥 zwiększa odstęp między polami */
+  gap: 20px; /* 🔥 zwiększa odstęp między polami */
   align-items: center;
 }
 #auth-form .input {
@@ -1161,9 +1161,20 @@ filter: brightness(0.85); /* delikatnie przygasza */
   gap: 6px;
   align-items: flex-start;
 }
+
+
 .auth-field label {
-    width: 100%;
-    text-align: left;
+  width: 100%;
+  text-align: left;
+}
+
+
+#handle-status {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  margin-top: 4px;
 }
 .profile-box .form-row {
   display: flex;          /* zamiast grid */
