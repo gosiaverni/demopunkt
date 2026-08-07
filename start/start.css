@@ -1583,3 +1583,27 @@ filter: brightness(0.85); /* delikatnie przygasza */
     gap: 30px;
     margin-bottom: 60px;
 }
+
+#handle-status{
+
+  display:block;
+
+  min-height:18px;
+
+  margin-top:8px;
+
+  font-size:13px;
+
+}
+
+#handle-status.available{
+  color:#8fd28a;
+}
+
+#handle-status.taken{
+  color:#ffb2b2;
+}
+
+#handle-status.checking{
+  color:#ddd;
+}

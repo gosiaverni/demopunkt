@@ -3,6 +3,13 @@ let isLogin = true;
 const title = document.getElementById("auth-title");
 const btn = document.getElementById("auth-btn");
 const toggle = document.getElementById("toggle-auth");
+const usernameInput =
+  document.getElementById("username");
+
+const handleStatus =
+  document.getElementById("handle-status");
+
+let handleAvailable = false;
 
 toggle.onclick = () => {
   isLogin = !isLogin;
@@ -70,22 +77,15 @@ document.getElementById("auth-form").onsubmit = async (e) => {
       return;
     }
 
-    username = username.replace(/^@+/, "");
-    username = "@" + username;
+   
 
-    // 🔍 sprawdzenie czy handle istnieje
+   if (!handleAvailable) {
 
-    const { data: existing } =
-      await supabaseClient
-        .from("profiles")
-        .select("user_id")
-        .eq("handle", username)
-        .maybeSingle();
+  alert("Wybierz wolny handle.");
 
-    if (existing) {
-      alert("Ten handle jest już zajęty.");
-      return;
-    }
+  return;
+
+}
 
     // 📝 REJESTRACJA
 
@@ -116,8 +116,10 @@ document.getElementById("auth-form").onsubmit = async (e) => {
           }]);
 
       if (profileError) {
-        console.error(profileError);
-      }
+  console.error(profileError);
+  alert("Nie udało się utworzyć profilu.");
+  return;
+}
 
     }
 
@@ -129,6 +131,73 @@ document.getElementById("auth-form").onsubmit = async (e) => {
 
 username = username.replace(/^@+/, "");
 username = "@" + username;
+
+if (usernameInput) {
+
+  usernameInput.addEventListener(
+    "input",
+    async () => {
+
+      let handle =
+        usernameInput.value
+          .trim()
+          .toLowerCase();
+
+      if (!handle) {
+
+        handleStatus.textContent = "";
+        handleStatus.className = "";
+
+        handleAvailable = false;
+
+        return;
+      }
+
+      handle =
+        handle.replace(/^@+/, "");
+
+      handle =
+        "@" + handle;
+
+      handleStatus.textContent =
+        "Sprawdzanie...";
+
+      handleStatus.className =
+        "checking";
+
+      const { data } =
+        await supabaseClient
+          .from("profiles")
+          .select("user_id")
+          .eq("handle", handle)
+          .maybeSingle();
+
+      if (data) {
+
+        handleStatus.textContent =
+          "❌ Ten handle jest już zajęty";
+
+        handleStatus.className =
+          "taken";
+
+        handleAvailable = false;
+
+      } else {
+
+        handleStatus.textContent =
+          "✅ Handle jest dostępny";
+
+        handleStatus.className =
+          "available";
+
+        handleAvailable = true;
+
+      }
+
+    }
+  );
+
+}
 const forgotBtn = document.getElementById("forgot-password");
 
 if (forgotBtn) {
