@@ -42,10 +42,8 @@
 
 <form id="auth-form">
 
-  <!-- Nazwa użytkownika -->
   <div class="auth-field register-only" style="display:none;">
     <label for="display-name">nazwa użytkownika</label>
-
     <input
       type="text"
       id="display-name"
@@ -54,47 +52,41 @@
     >
   </div>
 
-  <!-- Handle -->
   <div class="auth-field register-only" style="display:none;">
     <label for="username">handle</label>
-
     <input
       type="text"
       id="username"
       class="input"
       placeholder="np. jan_kowalski"
     >
-
     <small id="handle-status"></small>
   </div>
 
-  <!-- Email -->
   <div class="auth-field">
     <label for="email">adres e-mail</label>
-
     <input
       type="email"
       id="email"
       class="input"
+      autocomplete="email"
     >
   </div>
 
-  <!-- Hasło -->
   <div class="auth-field">
     <label for="password">hasło</label>
-
     <input
       type="password"
       id="password"
       class="input"
+      autocomplete="current-password"
     >
   </div>
 
   <button
     type="submit"
     class="submit-btn"
-    id="auth-btn"
-  >
+    id="auth-btn">
     zaloguj się
   </button>
 
