@@ -1654,7 +1654,6 @@ filter: brightness(0.85); /* delikatnie przygasza */
   text-align: left;
 }
 
-/* mniejszy odstęp między handle a emailem */
-#auth-form .register-only + .auth-field {
-  margin-top: 10px;
+#auth-form .auth-field {
+  gap: 10px;
 }
