@@ -288,14 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `);
 
 
-      marker.on(
-        "click",
-        () => {
-
-          window.openEvent(event.id);
-
-        }
-      );
+      
 
 
       markers.push(marker);
