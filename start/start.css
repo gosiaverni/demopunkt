@@ -1701,3 +1701,40 @@ filter: brightness(0.85); /* delikatnie przygasza */
   box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 }
 
+.map-event-popup {
+  background: #9d1629;
+  color: #f6f2ed;
+  padding: 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  min-width: 220px;
+  transition: 0.2s;
+}
+
+.map-event-popup:hover {
+  transform: scale(1.02);
+}
+
+.map-event-popup .popup-title {
+  color: #f6f2ed;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.map-event-popup .popup-place,
+.map-event-popup .popup-date {
+  color: #f6f2ed;
+  font-size: 13px;
+}
+
+.map-event-popup .popup-date {
+  margin-top: 5px;
+}
+
+.map-event-popup .popup-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+}
