@@ -219,6 +219,8 @@ if (editingId) {
   document.getElementById("end-date").value = event.end_date || "";
   document.getElementById("location").value = event.location || "";
   document.getElementById("event-link").value = event.link || "";
+  document.getElementById("category").value =
+  event.category || "";
 
   document.getElementById("copyright-confirm").checked =
     event.copyright_confirmed;
@@ -241,7 +243,10 @@ if (editingId) {
       const location = document.getElementById("location")?.value.trim();
       const institution = document.getElementById("institution")?.value.trim();
       const link = document.getElementById("event-link")?.value.trim();
+      const category =
+  document.getElementById("category")?.value || null;
       const copyrightConfirmed = document.getElementById("copyright-confirm").checked;
+      
 
       if (!title || !location || !startDate) {
         alert("Uzupełnij wymagane pola.");
@@ -291,6 +296,7 @@ if (editingId) {
       lon: geoData[0].lon,
       institution,
       link,
+      category,
 
       images,
       cover_image: images?.[0] || null,
@@ -315,6 +321,7 @@ if (editingId) {
       lon: geoData[0].lon,
       institution,
       link,
+      category,
 
       images,
       cover_image: images?.[0] || null,
