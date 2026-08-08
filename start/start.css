@@ -1701,7 +1701,3 @@ filter: brightness(0.85); /* delikatnie przygasza */
   box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 }
 
-.map-filter .city-select option:hover {
-  background-color: #9d1629;
-  color: #f6f2ed;
-}
