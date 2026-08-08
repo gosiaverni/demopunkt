@@ -1620,3 +1620,36 @@ filter: brightness(0.85); /* delikatnie przygasza */
 #handle-status.checking{
   color:#b64857;
 }
+
+/* =========================
+   AUTH - WYRÓWNANIE PÓL
+   ========================= */
+
+#auth-form {
+  align-items: center;
+}
+
+#auth-form .auth-field {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+#auth-form .auth-field label {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+#auth-form .auth-field input {
+  width: 100%;
+  text-align: left;
+}
+
+#auth-form #handle-status {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
