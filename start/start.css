@@ -1656,5 +1656,5 @@ filter: brightness(0.85); /* delikatnie przygasza */
 
 /* mniejszy odstęp między handle a emailem */
 #auth-form .register-only + .auth-field {
-  margin-top: -15px;
+  margin-top: 10px;
 }
