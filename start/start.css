@@ -1691,8 +1691,8 @@ filter: brightness(0.85); /* delikatnie przygasza */
 }
 
 .map-filter .city-select {
-  background: #f6f2ed;
-  color: #2b2b2b;
+  background: #2b2b2b;
+  color: #f6f2ed;
   border: none;
   border-radius: 20px;
   padding: 10px 15px;
