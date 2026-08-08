@@ -281,6 +281,7 @@ if (imageInput?.files?.length > 0) {
       // 💾 SAVE
     // 💾 SAVE
 let error;
+let savedEventId = editingId;
 
 if (editingId) {
 
@@ -309,28 +310,37 @@ if (editingId) {
 
 } else {
 
-  ({ error } = await supabaseClient
-    .from("events")
-    .insert([{
-      title,
-      description,
-      start_date: startDate,
-      end_date: endDate,
-      location,
-      lat: geoData[0].lat,
-      lon: geoData[0].lon,
-      institution,
-      link,
-      category,
+  const { data: newEvent, error: insertError } =
+    await supabaseClient
+      .from("events")
+      .insert([{
+        title,
+        description,
+        start_date: startDate,
+        end_date: endDate,
+        location,
+        lat: geoData[0].lat,
+        lon: geoData[0].lon,
+        institution,
+        link,
+        category,
 
-      images,
-      cover_image: images?.[0] || null,
+        images,
+        cover_image: images?.[0] || null,
 
-      amenities: amenities.length ? amenities : [],
+        amenities: amenities.length ? amenities : [],
 
-      user_id: user.id,
-      copyright_confirmed: copyrightConfirmed
-    }]));
+        user_id: user.id,
+        copyright_confirmed: copyrightConfirmed
+      }])
+      .select("id")
+      .single();
+
+  error = insertError;
+
+  if (newEvent) {
+    savedEventId = newEvent.id;
+  }
 
 }
 
@@ -340,7 +350,7 @@ if (error) {
   return;
 }
 
-window.location.href = `/event?id=${editingId ?? ""}`;
+window.location.href = `/event?id=${savedEventId}`;
 
     } catch (err) {
       console.error(err);
