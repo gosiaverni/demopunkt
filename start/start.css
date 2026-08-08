@@ -1658,17 +1658,3 @@ filter: brightness(0.85); /* delikatnie przygasza */
   margin-bottom: 4px;
 }
 
-.list-filters {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.city-select {
-  padding: 10px 15px;
-  border-radius: 20px;
-  border: none;
-  font-size: 14px;
-  background: #f6f2ed;
-  cursor: pointer;
-}
