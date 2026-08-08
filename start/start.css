@@ -1738,3 +1738,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
   object-fit: cover;
   border-radius: 10px;
 }
+
+.leaflet-popup-close-button {
+  display: none !important;
+}
