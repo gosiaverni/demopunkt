@@ -1654,6 +1654,6 @@ filter: brightness(0.85); /* delikatnie przygasza */
   text-align: left;
 }
 
-#auth-form .auth-field {
-  gap: 10px;
+#auth-form .auth-field label {
+  margin-bottom: 4px;
 }
