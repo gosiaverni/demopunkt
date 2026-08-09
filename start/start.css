@@ -1739,6 +1739,17 @@ filter: brightness(0.85); /* delikatnie przygasza */
   border-radius: 10px;
 }
 
+.map-filter .city-select:hover {
+  background: #2b2b2b;
+  color: #f6f2ed;
+}
+
+/* po kliknięciu / otwarciu */
+.map-filter .city-select:focus {
+  background: #2b2b2b;
+  color: #f6f2ed;
+  outline: none;
+}
 .leaflet-popup-close-button {
   display: none !important;
 }
