@@ -95,13 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  
-  window.openEvent = function (id) {
+ window.openEvent = function (eventLink) {
+  if (!eventLink) return;
 
-    window.location.href =
-      `/event?id=${id}`;
-
-  };
+  window.location.href = eventLink;
+};
 
 
   
@@ -125,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .from("events")
 
         .select(
-          "id, title, lat, lon, institution, end_date, cover_image, category"
+          "id, title, lat, lon, institution, end_date, cover_image, category, link"
         )
 
         .gte(
@@ -251,10 +249,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ).addTo(map);
 
 
-      marker.bindPopup(`
+  marker.bindPopup(`
   <div
     class="popup-content"
-    onclick="window.openEvent('${event.id}')"
+    onclick="window.openEvent('${event.link}')"
   >
 
     <div class="popup-text">
