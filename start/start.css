@@ -1742,3 +1742,21 @@ filter: brightness(0.85); /* delikatnie przygasza */
 .leaflet-popup-close-button {
   display: none !important;
 }
+
+#handle-status {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+#handle-status.checking {
+  opacity: 0.6;
+}
+
+#handle-status.available {
+  color: #f6f2ed;
+}
+
+#handle-status.taken {
+  color: #2b2b2b;
+}

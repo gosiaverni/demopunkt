@@ -24,6 +24,10 @@ function setupUI() {
     const closeBtn = document.getElementById("close-profile");
     const profileBox = document.querySelector(".profile-box");
     const saveBtn = document.getElementById("save-profile");
+    const handleInput = document.getElementById("handle-input");
+const handleStatus = document.getElementById("handle-status");
+
+let handleAvailable = true;
 
     // 🔥 OTWIERANIE MODALA
     if (editBtn) {
@@ -54,38 +58,188 @@ function setupUI() {
         e.stopPropagation();
       });
     }
+// 🔎 SPRAWDZANIE HANDLE
 
-    // 💾 ZAPIS
-    if (saveBtn) {
-      saveBtn.onclick = async () => {
-        const name = document.getElementById("name-input").value.trim();
-        let handle = document.getElementById("handle-input").value.trim();
-        const file = document.getElementById("avatar-input").files[0];
+if (handleInput) {
 
-        // 🔥 sanitizacja @
-        handle = handle.replace(/^@+/, "");
-        if (handle) handle = "@" + handle;
+  handleInput.addEventListener("input", async () => {
 
-        let imageBase64 = null;
+    let handle =
+      handleInput.value
+        .trim()
+        .toLowerCase();
 
-        if (file) {
-          imageBase64 = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target.result);
-            reader.readAsDataURL(file);
-          });
-        }
+    if (!handle) {
 
-        await saveProfile(name, handle, imageBase64);
+      handleStatus.textContent = "";
+      handleStatus.className = "";
 
-        modal.classList.remove("active");
+      handleAvailable = false;
 
-        // reset inputa pliku
-        document.getElementById("avatar-input").value = "";
-
-        loadProfile(); // 🔥 odśwież UI
-      };
+      return;
     }
+
+    // usuwamy @ z początku
+    handle = handle.replace(/^@+/, "");
+
+    // dodajemy jedno @
+    handle = "@" + handle;
+
+    handleStatus.textContent = "Sprawdzanie...";
+    handleStatus.className = "checking";
+
+    const {
+      data: userData
+    } = await supabaseClient.auth.getUser();
+
+    const user = userData?.user;
+
+    if (!user) return;
+
+
+    // 🔎 sprawdzamy, czy handle należy do KOGOŚ INNEGO
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("profiles")
+      .select("user_id")
+      .eq("handle", handle)
+      .neq("user_id", user.id)
+      .maybeSingle();
+
+
+    if (error) {
+
+      console.error(
+        "Błąd sprawdzania handle:",
+        error
+      );
+
+      handleStatus.textContent =
+        "Nie udało się sprawdzić handle";
+
+      handleStatus.className = "taken";
+
+      handleAvailable = false;
+
+      return;
+    }
+
+
+    if (data) {
+
+      handleStatus.textContent =
+        "Ten handle jest już zajęty";
+
+      handleStatus.className = "taken";
+
+      handleAvailable = false;
+
+    } else {
+
+      handleStatus.textContent =
+        "Handle jest dostępny";
+
+      handleStatus.className = "available";
+
+      handleAvailable = true;
+
+    }
+
+  });
+
+}
+    if (saveBtn) {
+  saveBtn.onclick = async () => {
+
+    const name =
+      document
+        .getElementById("name-input")
+        .value
+        .trim();
+
+    let handle =
+      document
+        .getElementById("handle-input")
+        .value
+        .trim();
+
+    const file =
+      document
+        .getElementById("avatar-input")
+        .files[0];
+
+
+    // 🔥 sanitizacja @
+
+    handle =
+      handle
+        .replace(/^@+/, "")
+        .toLowerCase();
+
+    if (handle) {
+      handle = "@" + handle;
+    }
+
+
+    // 🔒 NIE POZWALAMY ZAPISAĆ ZAJĘTEGO HANDLE
+
+    if (!handle) {
+
+      alert("Podaj handle.");
+      return;
+
+    }
+
+    if (!handleAvailable) {
+
+      alert("Ten handle jest już zajęty.");
+      return;
+
+    }
+
+
+    let imageBase64 = null;
+
+    if (file) {
+
+      imageBase64 =
+        await new Promise((resolve) => {
+
+          const reader =
+            new FileReader();
+
+          reader.onload =
+            (e) => resolve(e.target.result);
+
+          reader.readAsDataURL(file);
+
+        });
+
+    }
+
+
+    await saveProfile(
+      name,
+      handle,
+      imageBase64
+    );
+
+
+    modal.classList.remove("active");
+
+
+    document
+      .getElementById("avatar-input")
+      .value = "";
+
+
+    loadProfile();
+
+  };
+}
 
   
 }
@@ -127,6 +281,14 @@ async function loadProfile() {
     let handle = data.handle || "";
     if (handle.startsWith("@")) handle = handle.slice(1);
     document.getElementById("handle-input").value = handle;
+
+const handleStatus =
+  document.getElementById("handle-status");
+
+if (handleStatus) {
+  handleStatus.textContent = "";
+  handleStatus.className = "";
+}
   }
 }
 
