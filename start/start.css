@@ -1685,13 +1685,13 @@ filter: brightness(0.85); /* delikatnie przygasza */
 
 .map-filter {
   position: absolute;
-  top: 80px;
+  top: 65px;
   right: 20px;
   z-index: 1000;
 }
 
 .map-filter .city-select {
-  background: #2b2b2b;
+  background: #9d1629;
   color: #f6f2ed;
   border: none;
   border-radius: 20px;
