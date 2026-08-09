@@ -249,43 +249,46 @@ document.addEventListener("DOMContentLoaded", () => {
         ).addTo(map);
 
 
-  marker.bindPopup(`
+marker.bindPopup(`
   <div
-    class="popup-content"
+    class="popup-card"
     onclick="window.openEvent('${event.link}')"
   >
 
-    <div class="popup-text">
+    <div class="popup-title">
+      ${event.title}
+    </div>
 
-      <div class="popup-title">
-        ${event.title}
+    <div class="popup-content">
+
+      <div class="popup-text">
+
+        <div class="popup-place">
+          ${event.institution || ""}
+        </div>
+
+        <div class="popup-date">
+          do ${formatDate(event.end_date)}
+        </div>
+
       </div>
 
-      <div class="popup-place">
-        ${event.institution || ""}
-      </div>
-
-      <div class="popup-date">
-        do ${formatDate(event.end_date)}
-      </div>
+      ${
+        event.cover_image
+          ? `
+            <img
+              class="popup-img"
+              loading="lazy"
+              src="${event.cover_image}"
+            >
+          `
+          : ""
+      }
 
     </div>
 
-    ${
-      event.cover_image
-        ? `
-          <img
-            class="popup-img"
-            loading="lazy"
-            src="${event.cover_image}"
-          >
-        `
-        : ""
-    }
-
   </div>
 `);
-
 
       
 
