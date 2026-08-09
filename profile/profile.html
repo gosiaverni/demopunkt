@@ -1,36 +1,248 @@
-<!DOCTYPE html> 
-<html lang="pl"> 
-<head> <meta charset="UTF-8"> 
-  <title>Profil</title> 
-  <link rel="stylesheet" href="/start/start.css" > </head> <body> 
-    
-    <!-- ======================= 🔥 NAVBAR ======================== --> 
-     <header class="navbar"> <div class="logo" onclick="location.href='/'" > Punkt Sztuki </div> <nav class="nav"> 
-      <!-- SZUKAJ --> 
-       <div class="dropdown"> <button class="nav-btn"> SZUKAJ </button> <div class="dropdown-content"> <div onclick="location.href='/map'" > Mapa wydarzeń </div> <div onclick="location.href='/list'" > Lista wydarzeń </div> </div> </div> 
-       <!-- DODAJ --> 
-        <div class="dropdown"> <button class="nav-btn"> DODAJ </button> <div class="dropdown-content"> <div onclick="requireAuth('/create')" > Dodaj wydarzenie </div> </div> </div> 
-       <!-- KONTO --> 
-        <div id="auth-section"></div> </nav> </header> 
-        <!-- ======================= 👤 PROFIL ======================== --> 
-         <main class="profile-page"> <div class="profile-container"> <h1> Profil </h1> 
-          <!-- 🔥 KARTA PROFILU -->
-            <div class="profile-card"> <img src="/assets/star.png" id="profile-image" class="profile-avatar" alt="Zdjęcie profilowe" > <div class="profile-info"> <h2 id="profile-name"> Twoje imię </h2> <p id="profile-handle"> @twojhandle </p> <span class="edit-profile" id="edit-profile" > Edytuj profil </span> </div> </div> 
-            <!-- ======================= 📅 MOJE WYDARZENIA ======================== --> 
-             <h2 class="profile-section-title"> moje wydarzenia </h2> <div id="created-events" class="events-grid" ></div> 
-        <!-- ======================= 🔖 ZAPISANE WYDARZENIA ======================== --> 
-         <h2 class="profile-section-title"> zapisane wydarzenia </h2> <div id="saved-events" class="events-grid" ></div> </div> </main> 
-       <!-- ======================= ✏️ MODAL EDYCJI PROFILU ======================== --> 
-        <div class="profile-modal" id="profile-modal" > <div class="profile-box"> 
-        <!-- ❌ ZAMKNIĘCIE --> 
-         <span class="close-modal" id="close-profile" > ✕ </span> <h2> Edytuj profil </h2> 
-         <!-- 👤 NAZWA --> 
-          <div class="auth-field"> <label for="name-input"> nazwa użytkownika </label> <input type="text" id="name-input" class="input" placeholder="np. Jan Kowalski" > </div> 
-          <!-- @ HANDLE --> 
-           <div class="auth-field"> <label for="handle-input"> handle </label> <input type="text" id="handle-input" class="input" placeholder="np. jan_kowalski" > <small id="handle-status" ></small> </div> 
-           <!-- 🖼️ AVATAR --> 
-            <div class="auth-field"> <label for="avatar-input"> zdjęcie profilowe </label> <input type="file" id="avatar-input" accept="image/*" > </div> 
-            <!-- 💾 ZAPIS --> 
-             <button type="button" class="submit-btn" id="save-profile" > zapisz </button> </div> </div> 
-             <!-- ======================= 🔌 SCRIPTS ======================== --> 
-              <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" ></script> <script src="/supabase.js"></script> <script src="/start/start.js"></script> <script src="/profile/profile.js"></script> </body> </html>
+
+<!-- =======================
+     🔥 NAVBAR
+======================== -->
+
+<header class="navbar">
+
+  <div
+    class="logo"
+    onclick="location.href='/'"
+  >
+    Punkt Sztuki
+  </div>
+
+  <nav class="nav">
+
+    <!-- SZUKAJ -->
+
+    <div class="dropdown">
+
+      <button class="nav-btn">
+        SZUKAJ
+      </button>
+
+      <div class="dropdown-content">
+
+        <div onclick="location.href='/map'">
+          Mapa wydarzeń
+        </div>
+
+        <div onclick="location.href='/list'">
+          Lista wydarzeń
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- DODAJ -->
+
+    <div class="dropdown">
+
+      <button class="nav-btn">
+        DODAJ
+      </button>
+
+      <div class="dropdown-content">
+
+        <div onclick="requireAuth('/create')">
+          Dodaj wydarzenie
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- KONTO -->
+
+    <div id="auth-section"></div>
+
+  </nav>
+
+</header>
+
+
+<!-- =======================
+     👤 PROFIL
+======================== -->
+
+<main class="profile-page">
+
+  <div class="profile-container">
+
+    <h1>Profil</h1>
+
+
+    <!-- 🔥 KARTA PROFILU -->
+
+    <div class="profile-card">
+
+      <img
+        src="/assets/star.png"
+        id="profile-image"
+        class="profile-avatar"
+        alt="Zdjęcie profilowe"
+      >
+
+      <div class="profile-info">
+
+        <h2 id="profile-name">
+          Twoje imię
+        </h2>
+
+        <p id="profile-handle">
+          @twojhandle
+        </p>
+
+        <span
+          class="edit-profile"
+          id="edit-profile"
+        >
+          Edytuj profil
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- =======================
+         📅 MOJE WYDARZENIA
+    ======================== -->
+
+    <h2>
+      moje wydarzenia
+    </h2>
+
+    <div id="created-events"></div>
+
+
+    <!-- =======================
+         🔖 ZAPISANE WYDARZENIA
+    ======================== -->
+
+    <h2>
+      zapisane wydarzenia
+    </h2>
+
+    <div id="saved-events"></div>
+
+  </div>
+
+</main>
+
+
+<!-- =======================
+     ✏️ MODAL EDYCJI PROFILU
+======================== -->
+
+<div
+  class="profile-modal"
+  id="profile-modal"
+>
+
+  <div class="profile-box">
+
+    <!-- ❌ ZAMKNIĘCIE -->
+
+    <span
+      class="close-modal"
+      id="close-profile"
+    >
+      ✕
+    </span>
+
+
+    <h2>
+      Edytuj profil
+    </h2>
+
+
+    <!-- 👤 NAZWA -->
+
+    <div class="auth-field">
+
+      <label for="name-input">
+        nazwa użytkownika
+      </label>
+
+      <input
+        type="text"
+        id="name-input"
+        class="input"
+        placeholder="np. Jan Kowalski"
+      >
+
+    </div>
+
+
+    <!-- @ HANDLE -->
+
+    <div class="auth-field">
+
+      <label for="handle-input">
+        handle
+      </label>
+
+      <input
+        type="text"
+        id="handle-input"
+        class="input"
+        placeholder="np. jan_kowalski"
+      >
+
+      <small id="handle-status"></small>
+
+    </div>
+
+
+    <!-- 🖼️ AVATAR -->
+
+    <div class="auth-field">
+
+      <label for="avatar-input">
+        zdjęcie profilowe
+      </label>
+
+      <input
+        type="file"
+        id="avatar-input"
+        accept="image/*"
+      >
+
+    </div>
+
+
+    <!-- 💾 ZAPIS -->
+
+    <button
+      type="button"
+      class="submit-btn"
+      id="save-profile"
+    >
+      zapisz
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =======================
+     🔌 SCRIPTS
+======================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="/supabase.js"></script>
+
+<script src="/start/start.js"></script>
+
+<script src="/profile/profile.js"></script>
+
+</body>
+</html>
+
