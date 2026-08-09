@@ -1746,7 +1746,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
 
 /* po kliknięciu / otwarciu */
 .map-filter .city-select:focus {
-  background: #2b2b2b;
+  background: #9d1629;
   color: #f6f2ed;
   outline: none;
 }
