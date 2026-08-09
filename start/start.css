@@ -1685,7 +1685,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
 
 .map-filter {
   position: absolute;
-  top: 65px;
+  top: 35px;
   right: 20px;
   z-index: 1000;
 }
@@ -1697,22 +1697,8 @@ filter: brightness(0.85); /* delikatnie przygasza */
   border-radius: 20px;
   padding: 10px 15px;
   font-size: 14px;
-  font-family: 'Open Sauce', sans-serif;
-  font-weight: 600;
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-  outline: none;
-}
-
-.map-filter .city-select option {
-  background: #f6f2ed;
-  color: #2b2b2b;
-}
-
-/* opcja po najechaniu */
-.map-filter .city-select option:hover {
-  background: #2b2b2b;
-  color: #f6f2ed;
 }
 
 .map-event-popup {
@@ -1752,7 +1738,6 @@ filter: brightness(0.85); /* delikatnie przygasza */
   object-fit: cover;
   border-radius: 10px;
 }
-
 
 .leaflet-popup-close-button {
   display: none !important;
