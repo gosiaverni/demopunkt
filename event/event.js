@@ -411,6 +411,34 @@ if (submitReportBtn) {
         return;
       }
 
+      const { error: emailError } =
+  await supabaseClient.functions.invoke(
+    "send-event-report",
+    {
+      body: {
+        event_id: eventId,
+        reason,
+        description,
+        email,
+        attachments
+      }
+    }
+  );
+
+if (emailError) {
+
+  console.error(
+    "Email error:",
+    emailError
+  );
+
+  alert(
+    "Zgłoszenie zostało zapisane, ale nie udało się wysłać powiadomienia email."
+  );
+
+  return;
+}
+
       alert(
         "Dziękujemy. Zgłoszenie zostało wysłane."
       );
