@@ -1768,19 +1768,19 @@ filter: brightness(0.85); /* delikatnie przygasza */
 /* główny napis "Profil" */
 .profile-container h1 {
   font-size: 48px;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 /* nazwa użytkownika */
 .profile-info h2 {
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 /* "moje wydarzenia" i "zapisane wydarzenia" */
 .profile-container > h2 {
   font-size: 28px;
-  font-weight: 400;
+  font-weight: 600;
   margin-bottom: 20px;
 }
 
