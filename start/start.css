@@ -1760,3 +1760,31 @@ filter: brightness(0.85); /* delikatnie przygasza */
 #handle-status.taken {
   color: #2b2b2b;
 }
+
+/* =========================
+   PROFIL - DELIKATNIEJSZE NAPISY
+========================= */
+
+/* główny napis "Profil" */
+.profile-container h1 {
+  font-size: 48px;
+  font-weight: 400;
+}
+
+/* nazwa użytkownika */
+.profile-info h2 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* "moje wydarzenia" i "zapisane wydarzenia" */
+.profile-container > h2 {
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+/* odstęp przed kolejną sekcją */
+.profile-container > h2:not(:first-of-type) {
+  margin-top: 40px;
+}
