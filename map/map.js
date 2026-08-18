@@ -138,9 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             ascending: true
           }
-        )
-
-        .limit(30);
+        );
 
 
       if (error) {
