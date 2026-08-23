@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Number(place.lat),
             Number(place.lon)
           ],
-          16
+          12
         );
 
       })
