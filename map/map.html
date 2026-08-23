@@ -70,53 +70,71 @@
 
 <div class="map-filter">
 
-  <select id="map-category-select" class="city-select">
+  <div class="category-dropdown" id="category-dropdown">
 
-    <option value="">
+    <button
+      type="button"
+      class="category-dropdown-button"
+      id="category-dropdown-button"
+    >
       wszystkie kategorie
-    </option>
+    </button>
 
-    <option value="malarstwo">
-      malarstwo
-    </option>
+    <div
+      class="category-dropdown-menu"
+      id="category-dropdown-menu"
+    >
 
-    <option value="rzeźba">
-      rzeźba
-    </option>
+      <label>
+        <input type="checkbox" value="malarstwo">
+        <span>malarstwo</span>
+      </label>
 
-    <option value="architektura">
-      architektura
-    </option>
+      <label>
+        <input type="checkbox" value="rzeźba">
+        <span>rzeźba</span>
+      </label>
 
-    <option value="grafika">
-      grafika
-    </option>
+      <label>
+        <input type="checkbox" value="architektura">
+        <span>architektura</span>
+      </label>
 
-    <option value="rysunek">
-      rysunek
-    </option>
+      <label>
+        <input type="checkbox" value="grafika">
+        <span>grafika</span>
+      </label>
 
-    <option value="fotografia">
-      fotografia
-    </option>
+      <label>
+        <input type="checkbox" value="rysunek">
+        <span>rysunek</span>
+      </label>
 
-    <option value="wideoart">
-      wideo-art
-    </option>
+      <label>
+        <input type="checkbox" value="fotografia">
+        <span>fotografia</span>
+      </label>
 
-    <option value="sztuka uzytkowa">
-      sztuka użytkowa
-    </option>
+      <label>
+        <input type="checkbox" value="wideoart">
+        <span>wideo-art</span>
+      </label>
 
-    <option value="inne">
-      inne
-    </option>
+      <label>
+        <input type="checkbox" value="sztuka uzytkowa">
+        <span>sztuka użytkowa</span>
+      </label>
 
-  </select>
+      <label>
+        <input type="checkbox" value="inne">
+        <span>inne</span>
+      </label>
+
+    </div>
+
+  </div>
 
 </div>
-
-<div id="map"></div>
 
   </div>
 </main>

@@ -3,8 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const loader = document.getElementById("map-loader");
   const mapEl = document.getElementById("map");
-  const categorySelect =
-    document.getElementById("map-category-select");
+  const categoryDropdown =
+  document.getElementById("category-dropdown");
+
+const categoryButton =
+  document.getElementById("category-dropdown-button");
+
+const categoryCheckboxes =
+  document.querySelectorAll(
+    "#category-dropdown-menu input[type='checkbox']"
+  );
 
   if (!mapEl) return;
 
@@ -190,28 +198,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
 
-    const selectedCategory =
-      categorySelect
-        ? categorySelect.value
-        : "";
+ const selectedCategories =
+  Array.from(categoryCheckboxes)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value.toLowerCase());
 
+const filteredEvents =
+  allEvents.filter(event => {
 
-    
+    // Nic nie zaznaczone → wszystkie wydarzenia
+    if (selectedCategories.length === 0) {
+      return true;
+    }
 
-    const filteredEvents =
-      allEvents.filter(event => {
+    // Pokazujemy wydarzenia z wybranych kategorii
+    return (
+      event.category &&
+      selectedCategories.includes(
+        event.category.toLowerCase()
+      )
+    );
 
-        if (!selectedCategory) {
-          return true;
-        }
-
-        return (
-          event.category &&
-          event.category.toLowerCase() ===
-          selectedCategory.toLowerCase()
-        );
-
-      });
+  });
 
 
     
@@ -302,20 +310,69 @@ marker.bindPopup(`
 
 
   
+if (categoryButton) {
 
-  if (categorySelect) {
+  categoryButton.addEventListener(
+    "click",
+    () => {
 
-    categorySelect.addEventListener(
-      "change",
-      () => {
+      categoryDropdown.classList.toggle("open");
 
-        renderMarkers();
+    }
+  );
+
+}
+
+
+categoryCheckboxes.forEach(checkbox => {
+
+  checkbox.addEventListener(
+    "change",
+    () => {
+
+      const selected =
+        Array.from(categoryCheckboxes)
+          .filter(checkbox => checkbox.checked);
+
+      if (selected.length === 0) {
+
+        categoryButton.textContent =
+          "wszystkie kategorie";
+
+      } else if (selected.length === 1) {
+
+        categoryButton.textContent =
+          selected[0].nextElementSibling.textContent;
+
+      } else {
+
+        categoryButton.textContent =
+          `${selected.length} kategorii`;
 
       }
-    );
+
+      renderMarkers();
+
+    }
+  );
+
+});
+
+document.addEventListener(
+  "click",
+  event => {
+
+    if (
+      categoryDropdown &&
+      !categoryDropdown.contains(event.target)
+    ) {
+
+      categoryDropdown.classList.remove("open");
+
+    }
 
   }
-
+);
 
   
 
