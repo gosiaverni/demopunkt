@@ -1852,3 +1852,45 @@ filter: brightness(0.85); /* delikatnie przygasza */
   width: 16px;
   height: 16px;
 }
+
+.event-group-marker {
+  position: relative;
+  background: transparent;
+  border: none;
+}
+
+.event-group-marker img {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.event-group-marker span {
+  position: absolute;
+  color:#2b2b2b;
+
+  top: -5px;
+  right: 8px;
+
+  min-width: 24px;
+  height: 24px;
+
+  padding: 0 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: none;
+  border: none;
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.popup-card + .popup-card {
+  margin-top: 12px;
+  
+}
+

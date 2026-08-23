@@ -1,43 +1,54 @@
-
 document.addEventListener("DOMContentLoaded", () => {
 
-  const loader = document.getElementById("map-loader");
-  const mapEl = document.getElementById("map");
+  const loader =
+    document.getElementById("map-loader");
+
+  const mapEl =
+    document.getElementById("map");
+
   const categoryDropdown =
-  document.getElementById("category-dropdown");
+    document.getElementById("category-dropdown");
 
-const categoryButton =
-  document.getElementById("category-dropdown-button");
+  const categoryButton =
+    document.getElementById("category-dropdown-button");
 
-const categoryCheckboxes =
-  document.querySelectorAll(
-    "#category-dropdown-menu input[type='checkbox']"
-  );
+  const categoryCheckboxes =
+    document.querySelectorAll(
+      "#category-dropdown-menu input[type='checkbox']"
+    );
+
 
   if (!mapEl) return;
 
 
-  
+  // =========================
+  // MAPA
+  // =========================
 
   const map = L.map(mapEl).setView(
     [52.2297, 21.0122],
     6
   );
 
+
   L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
     {
-      attribution: '© OpenStreetMap & CartoDB'
+      attribution: "© OpenStreetMap & CartoDB"
     }
   ).addTo(map);
 
 
-  
+  // =========================
+  // WYSZUKIWANIE ADRESU
+  // =========================
 
   const params =
     new URLSearchParams(window.location.search);
 
-  const address = params.get("address");
+  const address =
+    params.get("address");
+
 
   if (address) {
 
@@ -47,7 +58,10 @@ const categoryCheckboxes =
       .then(res => res.json())
       .then(data => {
 
-        if (!Array.isArray(data) || !data.length) {
+        if (
+          !Array.isArray(data) ||
+          !data.length
+        ) {
           return;
         }
 
@@ -63,10 +77,13 @@ const categoryCheckboxes =
 
       })
       .catch(console.error);
+
   }
 
 
-  
+  // =========================
+  // LOADER
+  // =========================
 
   function hideLoader() {
 
@@ -75,10 +92,13 @@ const categoryCheckboxes =
     loader.style.display = "none";
 
     mapEl.classList.add("visible");
+
   }
 
 
-  
+  // =========================
+  // IKONA NORMALNEJ PINEZKI
+  // =========================
 
   const customIcon = L.icon({
 
@@ -91,6 +111,9 @@ const categoryCheckboxes =
   });
 
 
+  // =========================
+  // FORMAT DATY
+  // =========================
 
   function formatDate(dateString) {
 
@@ -100,24 +123,35 @@ const categoryCheckboxes =
       dateString.split("-");
 
     return `${d}.${m}.${y}`;
+
   }
 
 
- window.openEvent = function (eventLink) {
-  if (!eventLink) return;
+  // =========================
+  // OTWIERANIE WYDARZENIA
+  // =========================
 
-  window.location.href = eventLink;
-};
+  window.openEvent = function (eventLink) {
+
+    if (!eventLink) return;
+
+    window.location.href = eventLink;
+
+  };
 
 
-  
+  // =========================
+  // DANE
+  // =========================
 
   let allEvents = [];
 
   let markers = [];
 
 
-  
+  // =========================
+  // ŁADOWANIE WYDARZEŃ
+  // =========================
 
   async function loadEvents() {
 
@@ -159,6 +193,7 @@ const categoryCheckboxes =
         hideLoader();
 
         return;
+
       }
 
 
@@ -181,11 +216,13 @@ const categoryCheckboxes =
   }
 
 
-  
+  // =========================
+  // RENDEROWANIE PINEZEK
+  // =========================
 
   function renderMarkers() {
 
-    // usuwamy poprzednie markery
+    // Usuwamy poprzednie markery
 
     markers.forEach(marker => {
 
@@ -196,33 +233,54 @@ const categoryCheckboxes =
     markers = [];
 
 
-    
+    // =========================
+    // WYBRANE KATEGORIE
+    // =========================
 
- const selectedCategories =
-  Array.from(categoryCheckboxes)
-    .filter(checkbox => checkbox.checked)
-    .map(checkbox => checkbox.value.toLowerCase());
-
-const filteredEvents =
-  allEvents.filter(event => {
-
-    // Nic nie zaznaczone → wszystkie wydarzenia
-    if (selectedCategories.length === 0) {
-      return true;
-    }
-
-    // Pokazujemy wydarzenia z wybranych kategorii
-    return (
-      event.category &&
-      selectedCategories.includes(
-        event.category.toLowerCase()
-      )
-    );
-
-  });
+    const selectedCategories =
+      Array.from(categoryCheckboxes)
+        .filter(
+          checkbox => checkbox.checked
+        )
+        .map(
+          checkbox =>
+            checkbox.value.toLowerCase()
+        );
 
 
-    
+    // =========================
+    // FILTROWANIE WYDARZEŃ
+    // =========================
+
+    const filteredEvents =
+      allEvents.filter(event => {
+
+        // Nic nie zaznaczone
+        // → pokazujemy wszystko
+
+        if (
+          selectedCategories.length === 0
+        ) {
+          return true;
+        }
+
+
+        return (
+          event.category &&
+          selectedCategories.includes(
+            event.category.toLowerCase()
+          )
+        );
+
+      });
+
+
+    // =========================
+    // GRUPOWANIE PO LOKALIZACJI
+    // =========================
+
+    const groupedEvents = {};
+
 
     filteredEvents.forEach(event => {
 
@@ -235,6 +293,7 @@ const filteredEvents =
 
 
       const lat = Number(event.lat);
+
       const lon = Number(event.lon);
 
 
@@ -246,62 +305,151 @@ const filteredEvents =
       }
 
 
-      const marker =
-        L.marker(
-          [lat, lon],
-          {
-            icon: customIcon
-          }
-        ).addTo(map);
+      const key =
+        `${lat},${lon}`;
 
 
-marker.bindPopup(`
-  <div
-    class="popup-card"
-    onclick="window.openEvent('${event.link}')"
-  >
+      if (!groupedEvents[key]) {
 
-    <div class="popup-title">
-      ${event.title}
-    </div>
+        groupedEvents[key] = {
 
-    <div class="popup-content">
+          lat,
 
-      <div class="popup-text">
+          lon,
 
-        <div class="popup-place">
-          ${event.institution || ""}
-        </div>
+          events: []
 
-        <div class="popup-date">
-          do ${formatDate(event.end_date)}
-        </div>
+        };
 
-      </div>
-
-      ${
-        event.cover_image
-          ? `
-            <img
-              class="popup-img"
-              loading="lazy"
-              src="${event.cover_image}"
-            >
-          `
-          : ""
       }
 
-    </div>
 
-  </div>
-`);
-
-      
-
-
-      markers.push(marker);
+      groupedEvents[key].events.push(event);
 
     });
+
+
+    // =========================
+    // TWORZENIE PINEZEK
+    // =========================
+
+    Object.values(groupedEvents)
+      .forEach(group => {
+
+
+        // =========================
+        // IKONA
+        // =========================
+
+        const icon =
+          group.events.length > 1
+
+            ? L.divIcon({
+
+                className:
+                  "event-group-marker",
+
+                html: `
+                  <img
+                    src="/assets/pin.png"
+                  >
+
+                  <span>
+                    +${group.events.length - 1}
+                  </span>
+                `,
+
+                iconSize: [60, 40],
+
+                iconAnchor: [20, 40]
+
+              })
+
+            : customIcon;
+
+
+        // =========================
+        // MARKER
+        // =========================
+
+        const marker =
+          L.marker(
+            [
+              group.lat,
+              group.lon
+            ],
+            {
+              icon
+            }
+          ).addTo(map);
+
+
+        // =========================
+        // POPUP
+        // =========================
+
+        const popupContent =
+          group.events
+            .map(event => {
+
+              return `
+
+                <div
+                  class="popup-card"
+                  onclick="window.openEvent('${event.link}')"
+                >
+
+                  <div class="popup-title">
+                    ${event.title}
+                  </div>
+
+
+                  <div class="popup-content">
+
+                    <div class="popup-text">
+
+                      <div class="popup-place">
+                        ${event.institution || ""}
+                      </div>
+
+
+                      <div class="popup-date">
+                        do ${formatDate(event.end_date)}
+                      </div>
+
+                    </div>
+
+
+                    ${
+                      event.cover_image
+                        ? `
+                          <img
+                            class="popup-img"
+                            loading="lazy"
+                            src="${event.cover_image}"
+                          >
+                        `
+                        : ""
+                    }
+
+                  </div>
+
+                </div>
+
+              `;
+
+            })
+            .join("");
+
+
+        marker.bindPopup(
+          popupContent
+        );
+
+
+        markers.push(marker);
+
+      });
 
 
     hideLoader();
@@ -309,72 +457,112 @@ marker.bindPopup(`
   }
 
 
-  
-if (categoryButton) {
+  // =========================
+  // DROPDOWN KATEGORII
+  // =========================
 
-  categoryButton.addEventListener(
-    "click",
-    () => {
+  if (categoryButton) {
 
-      categoryDropdown.classList.toggle("open");
+    categoryButton.addEventListener(
+      "click",
+      () => {
+
+        categoryDropdown
+          .classList
+          .toggle("open");
+
+      }
+    );
+
+  }
+
+
+  // =========================
+  // CHECKBOXY
+  // =========================
+
+  categoryCheckboxes.forEach(
+    checkbox => {
+
+      checkbox.addEventListener(
+        "change",
+        () => {
+
+          const selected =
+            Array.from(
+              categoryCheckboxes
+            )
+              .filter(
+                checkbox =>
+                  checkbox.checked
+              );
+
+
+          if (
+            selected.length === 0
+          ) {
+
+            categoryButton.textContent =
+              "wszystkie kategorie";
+
+          }
+
+          else if (
+            selected.length === 1
+          ) {
+
+            categoryButton.textContent =
+              selected[0]
+                .nextElementSibling
+                .textContent;
+
+          }
+
+          else {
+
+            categoryButton.textContent =
+              `${selected.length} kategorii`;
+
+          }
+
+
+          renderMarkers();
+
+        }
+      );
 
     }
   );
 
-}
 
+  // =========================
+  // ZAMYKANIE DROPDOWNU
+  // =========================
 
-categoryCheckboxes.forEach(checkbox => {
+  document.addEventListener(
+    "click",
+    event => {
 
-  checkbox.addEventListener(
-    "change",
-    () => {
+      if (
+        categoryDropdown &&
+        !categoryDropdown.contains(
+          event.target
+        )
+      ) {
 
-      const selected =
-        Array.from(categoryCheckboxes)
-          .filter(checkbox => checkbox.checked);
-
-      if (selected.length === 0) {
-
-        categoryButton.textContent =
-          "wszystkie kategorie";
-
-      } else if (selected.length === 1) {
-
-        categoryButton.textContent =
-          selected[0].nextElementSibling.textContent;
-
-      } else {
-
-        categoryButton.textContent =
-          `${selected.length} kategorie`;
+        categoryDropdown
+          .classList
+          .remove("open");
 
       }
 
-      renderMarkers();
-
     }
   );
 
-});
 
-document.addEventListener(
-  "click",
-  event => {
-
-    if (
-      categoryDropdown &&
-      !categoryDropdown.contains(event.target)
-    ) {
-
-      categoryDropdown.classList.remove("open");
-
-    }
-
-  }
-);
-
-  
+  // =========================
+  // START
+  // =========================
 
   map.whenReady(() => {
 
