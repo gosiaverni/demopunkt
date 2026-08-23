@@ -1798,6 +1798,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
 .category-dropdown-button {
   width: 100%;
   padding: 12px 16px;
+  color:#f6f2ed;
 
   background: #9d1629;
   border: 1px solid #ddd;
