@@ -347,7 +347,7 @@ categoryCheckboxes.forEach(checkbox => {
       } else {
 
         categoryButton.textContent =
-          `${selected.length} kategorii`;
+          `${selected.length} kategorie`;
 
       }
 
