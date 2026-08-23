@@ -1802,7 +1802,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
 
   background: #9d1629;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
 
   text-align: left;
   font: inherit;
@@ -1820,7 +1820,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
 
   background: #9d1629;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
 
   padding: 8px 0;
 
