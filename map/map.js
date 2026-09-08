@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=cb1_2he2_1_440a470de85a141af459d7b1', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=cb1_2he2_1_440a470de85a141af459d7b1', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
   subdomains: 'abcd', maxZoom: 20
 }).addTo(map);
