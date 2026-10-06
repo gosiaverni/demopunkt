@@ -41,7 +41,7 @@ const map = L.map(mapEl).setView(
   // WYSZUKIWANIE ADRESU
   // =========================
 
- const params =
+const params =
   new URLSearchParams(window.location.search);
 
 const address =
@@ -49,7 +49,6 @@ const address =
 
 if (address) {
 
-  // Pokazujemy loader i ukrywamy mapę
   loader.style.display = "flex";
   mapEl.classList.remove("visible");
 
@@ -69,8 +68,7 @@ if (address) {
         !Array.isArray(data) ||
         !data.length
       ) {
-        hideLoader();
-        return;
+        throw new Error("Nie znaleziono adresu");
       }
 
       const place = data[0];
@@ -83,16 +81,24 @@ if (address) {
         13
       );
 
-      hideLoader();
+      // Dopiero teraz pokazujemy mapę
+      mapEl.classList.add("visible");
+      loader.style.display = "none";
+
+      // Leaflet poprawnie przelicza rozmiar po pokazaniu
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 50);
 
     })
     .catch(err => {
       console.error("Geocoding error:", err);
-      hideLoader();
+
+      mapEl.classList.add("visible");
+      loader.style.display = "none";
     });
 
 }
-
 
   // =========================
   // LOADER

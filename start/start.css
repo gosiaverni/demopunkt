@@ -16,7 +16,13 @@
   font-weight: 700;
 }
 
+#map {
+  visibility: hidden;
+}
 
+#map.visible {
+  visibility: visible;
+}
 .nav-btn.active {
   font-weight: 600;
 }
