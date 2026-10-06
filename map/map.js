@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // MAPA
   // =========================
+const map = L.map(mapEl).setView(
+  [52.2297, 21.0122],
+  6
+);
 
-  const map = L.map(mapEl).setView(
-    [52.2297, 21.0122],
-    6
-  );
 
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=cb1_2he2_1_440a470de85a141af459d7b1', {
@@ -41,42 +41,57 @@ document.addEventListener("DOMContentLoaded", () => {
   // WYSZUKIWANIE ADRESU
   // =========================
 
-  const params =
-    new URLSearchParams(window.location.search);
+ const params =
+  new URLSearchParams(window.location.search);
 
-  const address =
-    params.get("address");
+const address =
+  params.get("address");
 
+if (address) {
 
-  if (address) {
+  // Pokazujemy loader i ukrywamy mapę
+  loader.style.display = "flex";
+  mapEl.classList.remove("visible");
 
-    fetch(
-      `${window.GEOCODE_URL}?q=${encodeURIComponent(address)}`
-    )
-      .then(res => res.json())
-      .then(data => {
+  fetch(
+    `${window.GEOCODE_URL}?q=${encodeURIComponent(address)}`
+  )
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`Geocode HTTP ${res.status}`);
+      }
 
-        if (
-          !Array.isArray(data) ||
-          !data.length
-        ) {
-          return;
-        }
+      return res.json();
+    })
+    .then(data => {
 
-        const place = data[0];
+      if (
+        !Array.isArray(data) ||
+        !data.length
+      ) {
+        hideLoader();
+        return;
+      }
 
-        map.setView(
-          [
-            Number(place.lat),
-            Number(place.lon)
-          ],
-          13
-        );
+      const place = data[0];
 
-      })
-      .catch(console.error);
+      map.setView(
+        [
+          Number(place.lat),
+          Number(place.lon)
+        ],
+        13
+      );
 
-  }
+      hideLoader();
+
+    })
+    .catch(err => {
+      console.error("Geocoding error:", err);
+      hideLoader();
+    });
+
+}
 
 
   // =========================
