@@ -17,42 +17,65 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    input.addEventListener("input", function () {
-      const query = input.value.trim();
+   let autocompleteTimeout;
 
-      if (query.length < 3) {
-        autocompleteList.innerHTML = "";
+input.addEventListener("input", function () {
+  const query = input.value.trim();
+
+  clearTimeout(autocompleteTimeout);
+
+  if (query.length < 3) {
+    autocompleteList.innerHTML = "";
+    autocompleteList.classList.remove("active");
+    return;
+  }
+
+  autocompleteTimeout = setTimeout(async () => {
+    try {
+      const res = await fetch(
+        `${window.GEOCODE_URL}?q=${encodeURIComponent(query)}`
+      );
+
+      if (!res.ok) {
+        throw new Error(`Geocode HTTP ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      autocompleteList.innerHTML = "";
+
+      if (!Array.isArray(data) || data.length === 0) {
         autocompleteList.classList.remove("active");
         return;
       }
 
-      fetch(`${window.GEOCODE_URL}?q=${encodeURIComponent(query)}`)
-        .then(res => res.json())
-        .then(data => {
-          if (!Array.isArray(data)) return;
+      autocompleteList.classList.add("active");
 
+      data.slice(0, 5).forEach(place => {
+        const item = document.createElement("div");
+
+        item.classList.add("autocomplete-item");
+        item.textContent = place.display_name;
+
+        item.addEventListener("click", () => {
+          input.value = place.display_name;
           autocompleteList.innerHTML = "";
+          autocompleteList.classList.remove("active");
 
-          if (data.length > 0) {
-            autocompleteList.classList.add("active");
-          }
-
-          data.slice(0, 5).forEach(place => {
-            const item = document.createElement("div");
-            item.classList.add("autocomplete-item");
-            item.textContent = place.display_name;
-
-            item.addEventListener("click", () => {
-              window.location.href = `/map?address=${encodeURIComponent(place.display_name)}`;
-            });
-
-            autocompleteList.appendChild(item);
-          });
-        })
-        .catch(err => {
-          console.error("Autocomplete error:", err);
+          window.location.href =
+            `/map?address=${encodeURIComponent(place.display_name)}`;
         });
-    });
+
+        autocompleteList.appendChild(item);
+      });
+
+    } catch (err) {
+      console.error("Autocomplete error:", err);
+      autocompleteList.innerHTML = "";
+      autocompleteList.classList.remove("active");
+    }
+  }, 350);
+});
 
     document.addEventListener("click", (e) => {
       if (!autocompleteList.contains(e.target) && e.target !== input) {
