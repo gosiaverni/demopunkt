@@ -2008,3 +2008,25 @@ filter: brightness(0.85); /* delikatnie przygasza */
   box-sizing: border-box;
 }
 
+#map-search-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  line-height: 1;
+  height: 100%;
+}
+
+#map-search-button span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+
+  display: block;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
