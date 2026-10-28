@@ -38,6 +38,168 @@ const map = L.map(mapEl).setView(
 
 
   // =========================
+  // WYSZUKIWARKA NA MAPIE
+  // =========================
+
+  window.GEOCODE_URL = window.GEOCODE_URL ||
+    "https://xlcjmhhaxjnizmpoqkoa.supabase.co/functions/v1/geocode";
+
+  const mapSearchInput =
+    document.getElementById("map-address-input");
+
+  const mapSearchButton =
+    document.getElementById("map-search-button");
+
+  const mapAutocompleteList =
+    document.getElementById("map-autocomplete-list");
+
+  if (mapSearchInput && mapAutocompleteList && mapSearchButton) {
+
+    let autocompleteTimeout;
+    let searchRequestId = 0;
+
+    // Wyszukiwanie adresu i przybliżenie mapy
+    async function searchMapAddress(address) {
+      address = address.trim();
+
+      if (address.length < 3) return;
+
+      const requestId = ++searchRequestId;
+
+      mapAutocompleteList.innerHTML = "";
+      mapAutocompleteList.classList.remove("active");
+
+      try {
+        const response = await fetch(
+          `${window.GEOCODE_URL}?q=${encodeURIComponent(address)}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`Geocode HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Ignorujemy starsze wyniki wyszukiwania
+        if (requestId !== searchRequestId) return;
+
+        if (!Array.isArray(data) || data.length === 0) {
+          alert("Nie znaleziono takiego miejsca.");
+          return;
+        }
+
+        const place = data[0];
+        const lat = Number(place.lat);
+        const lon = Number(place.lon);
+
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+          throw new Error("Nieprawidłowe współrzędne adresu");
+        }
+
+        mapSearchInput.value = place.display_name || address;
+
+        mapAutocompleteList.innerHTML = "";
+        mapAutocompleteList.classList.remove("active");
+
+        // Przybliżamy mapę bez przeładowania strony
+        map.setView([lat, lon], 15, {
+          animate: true
+        });
+
+      } catch (error) {
+        if (requestId !== searchRequestId) return;
+
+        console.error("Map search error:", error);
+        alert("Nie udało się wyszukać miejsca. Spróbuj ponownie.");
+      }
+    }
+
+    // Enter lub przycisk lupy
+    mapSearchInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        searchMapAddress(mapSearchInput.value);
+      }
+
+      if (event.key === "Escape") {
+        mapAutocompleteList.innerHTML = "";
+        mapAutocompleteList.classList.remove("active");
+      }
+    });
+
+    mapSearchButton.addEventListener("click", () => {
+      searchMapAddress(mapSearchInput.value);
+    });
+
+    // Podpowiedzi adresów
+    mapSearchInput.addEventListener("input", () => {
+      const query = mapSearchInput.value.trim();
+
+      clearTimeout(autocompleteTimeout);
+      ++searchRequestId;
+
+      if (query.length < 3) {
+        mapAutocompleteList.innerHTML = "";
+        mapAutocompleteList.classList.remove("active");
+        return;
+      }
+
+      autocompleteTimeout = setTimeout(async () => {
+        try {
+          const response = await fetch(
+            `${window.GEOCODE_URL}?q=${encodeURIComponent(query)}`
+          );
+
+          if (!response.ok) {
+            throw new Error(`Geocode HTTP ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          // Nie wyświetlamy wyników dla poprzedniego zapytania
+          if (mapSearchInput.value.trim() !== query) return;
+
+          mapAutocompleteList.innerHTML = "";
+
+          if (!Array.isArray(data) || data.length === 0) {
+            mapAutocompleteList.classList.remove("active");
+            return;
+          }
+
+          data.slice(0, 5).forEach(place => {
+            const item = document.createElement("div");
+
+            item.className = "autocomplete-item";
+            item.textContent = place.display_name;
+
+            item.addEventListener("click", () => {
+              mapSearchInput.value = place.display_name;
+
+              searchMapAddress(place.display_name);
+            });
+
+            mapAutocompleteList.appendChild(item);
+          });
+
+          mapAutocompleteList.classList.add("active");
+
+        } catch (error) {
+          console.error("Map autocomplete error:", error);
+          mapAutocompleteList.innerHTML = "";
+          mapAutocompleteList.classList.remove("active");
+        }
+      }, 350);
+    });
+
+    // Zamknięcie podpowiedzi po kliknięciu poza wyszukiwarką
+    document.addEventListener("click", event => {
+      if (!event.target.closest("#map-search")) {
+        mapAutocompleteList.classList.remove("active");
+      }
+    });
+  }
+
+  // =========================
   // WYSZUKIWANIE ADRESU
   // =========================
 

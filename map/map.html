@@ -71,6 +71,24 @@
 
     <div class="map-filter">
 
+      <div id="map-top-controls">
+
+  <!-- WYSZUKIWANIE MIEJSCA -->
+  <div id="map-search">
+    <input
+      type="text"
+      id="map-address-input"
+      placeholder="Szukaj miejsca..."
+      autocomplete="off"
+    />
+
+    <button id="map-search-button" type="button" aria-label="Szukaj">
+      <span>⌕</span>
+    </button>
+
+    <div id="map-autocomplete-list"></div>
+  </div>
+
       <div class="category-dropdown" id="category-dropdown">
 
         <button
@@ -140,6 +158,7 @@
 
       </div>
 
+    </div>
     </div>
 
     <div id="map"></div>

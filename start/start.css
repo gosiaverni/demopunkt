@@ -1900,3 +1900,101 @@ filter: brightness(0.85); /* delikatnie przygasza */
   
 }
 
+#map-top-controls {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  z-index: 1000;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+#map-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  width: 260px;
+  height: 40px;
+
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+#map-address-input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0 10px;
+
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-size: 14px;
+  color: #222;
+}
+
+#map-search-button {
+  flex-shrink: 0;
+  width: 42px;
+  height: 100%;
+
+  border: none;
+  border-radius: 0 8px 8px 0;
+  background: #a5142a;
+  color: white;
+  cursor: pointer;
+  font-size: 23px;
+}
+
+#map-search-button:hover {
+  background: #851024;
+}
+
+#map-autocomplete-list {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  z-index: 1100;
+}
+
+#map-autocomplete-list.active {
+  display: block;
+}
+
+#map-autocomplete-list .autocomplete-item {
+  padding: 11px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #333;
+  cursor: pointer;
+}
+
+#map-autocomplete-list .autocomplete-item:hover {
+  background: #f3f3f3;
+}
+
+@media (max-width: 600px) {
+  #map-top-controls {
+    top: 12px;
+    right: 10px;
+    left: 10px;
+    gap: 6px;
+  }
+
+  #map-search {
+    width: min(260px, 55vw);
+  }
+}
