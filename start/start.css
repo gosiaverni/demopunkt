@@ -1917,7 +1917,7 @@ filter: brightness(0.85); /* delikatnie przygasza */
   align-items: center;
 
   width: 260px;
-  height: 40px;
+  height: 46px;
 
   background: #fff;
   border: 1px solid #ddd;
@@ -1998,3 +1998,13 @@ filter: brightness(0.85); /* delikatnie przygasza */
     width: min(260px, 55vw);
   }
 }
+
+#map-search-button {
+  height: 100%;
+}
+
+#map-address-input {
+  height: 100%;
+  box-sizing: border-box;
+}
+
